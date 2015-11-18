@@ -25,7 +25,7 @@ public class GhostActivity extends AppCompatActivity {
     private EditText input;
     private Button challenge;
     private Button reset;
-    private boolean usertern = true;
+    private boolean usertern =random.nextBoolean();;
 
 
     @Override
@@ -67,7 +67,7 @@ public class GhostActivity extends AppCompatActivity {
     }
 
     private void onstart() {
-        //usertern=random.nextBoolean();
+
         if (usertern) {
             turn.setText(User_tern);
         } else {
@@ -81,9 +81,11 @@ public class GhostActivity extends AppCompatActivity {
     private void computerTurn() {
         current = input.getText().toString().toLowerCase();
         char nextChar;
-        //if (current.isEmpty())
-          //  return;
-        //usercopleted the word
+        //if (current == null)
+        //{
+          //  word=fastDictionary.getAnyWordStartingWith(" ");
+       // }
+        //user completed the word
         if (fastDictionary.isWord(current)) {
             setResult(false);
                }
@@ -115,18 +117,18 @@ public class GhostActivity extends AppCompatActivity {
             String duplicate = word;
             word = fastDictionary.getGoodWordStartingWith(current);
            Log.d("wordsafter", word + " ");
-            //if no word starting with current prefix comp win
+
             if (word == null) {
                 setResult(false);
 
-                Log.d("error", "its me1 causing the mall function");
+
             }//if there are word starting with current prefix continue play
             else {
                 nextChar = word.charAt(current.length());
                 input.append(String.valueOf(nextChar));
                 //if the computer find the new word and and completes the word user win
                 if (current.length() + 1 == word.length()) {
-                    Log.d("error", "its me2 causing the mall function");
+
                     setResult(true);
                 } else {
                     usertern = true;
@@ -142,7 +144,6 @@ public class GhostActivity extends AppCompatActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         super.onKeyUp(keyCode, event);
-        Log.d("keypree", (char) keyCode + "kepressed");
         usertern = false;
         computerTurn();
         return true;
@@ -154,11 +155,11 @@ public class GhostActivity extends AppCompatActivity {
             turn.setText("User win");
         else
             turn.setText("Computer win");
-        //reset.callOnClick();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                usertern = true;
+                usertern = random.nextBoolean();
                 current = null;
                 word=null;
                 input.setText(null);

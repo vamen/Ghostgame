@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 /**
+ * Trie node
  * Created by Vivek Balachandran on 11/11/2015.
  */
 public class TrieNode {
@@ -44,6 +45,7 @@ public class TrieNode {
         primechar = word.charAt(0);
         t = getChild(primechar);
         if (t == null) {
+            //if there is no child  with char c add it to tree
             t = new TrieNode(primechar);
             children.add(t);
         }
@@ -69,8 +71,6 @@ public class TrieNode {
 
     public String getGoodWordStartingWith(String s) {
         StringBuilder sBuild = new StringBuilder(s);
-        StringBuilder prefix=new StringBuilder(s);
-
         TrieNode t = this;
         int max = 1;
         String res = null;
@@ -87,19 +87,17 @@ public class TrieNode {
         init = t;
         while (true) {
             int j = t.children.size();
-            Log.d("random", "****" + j + "****");
             t = t.children.get(random.nextInt(j));
             if (t == null)
                 break;
             sBuild.append(t.getChar());
             if (t.isEnd) {
-                Log.d("at good", sBuild+"#####" + j + "****");
+
                 wordList.add(sBuild.toString());
                 t.Rank++;
                 rankHolder.add(t);
                 t = init;
                 sBuild = new StringBuilder(s);
-                Log.d("good word", sBuild.toString() + "#####" + wordList.size() + "#####"+rankHolder.size()+"&&&&&&&");
                 if (wordList.size() >50||rankHolder.size()>50)
                     break;
             }

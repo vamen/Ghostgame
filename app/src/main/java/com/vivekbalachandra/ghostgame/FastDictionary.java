@@ -14,11 +14,17 @@ public class FastDictionary {
 
     private static final int MIN_WORD_LENGTH = 5;
     private final TrieNode root;
-    private String word = null;
+    private String line = null;
 
+    Runnable addword=new Runnable() {
+        @Override
+        public void run() {
+            root.add(line.trim());
+        }
+    };
+    Thread thread=new Thread(addword);
     public FastDictionary(Context ctx) {
         root = new TrieNode(' ');
-        String line = null;
         InputStream is = ctx.getResources().openRawResource(R.raw.words);
         BufferedReader buff = new BufferedReader(new InputStreamReader(is));
         try {
@@ -26,7 +32,8 @@ public class FastDictionary {
 
                 String word = line.trim();
                 if (word.length() >= MIN_WORD_LENGTH)
-                    root.add(line.trim());
+                    thread.run();
+
             }
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -40,7 +47,8 @@ public class FastDictionary {
     }
 
     public String getAnyWordStartingWith(String prefix) {
-        return root.getAnyWordStartingWith(prefix);
+       return root.getAnyWordStartingWith(prefix);
+
     }
 
 
